@@ -14,6 +14,7 @@ if (process.env.IS_CLIENT) {
     console.log(`[client] Client ID: ${socketClient.id}`)
     console.log("[client] connected to server");
 
+    console.log("[client] sending initial message");
     socketClient.emit("message", "pasok!");
   });
 

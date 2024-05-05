@@ -7,19 +7,6 @@ const server = http.createServer((req, res) => {
   res.end();
 });
 
-const ioServer = new Server(server);
-
-ioServer.on("connection", (socket) => {
-  console.log("[server] a user was connected");
-
-  socket.emit("message", "welcome to server");
-
-  socket.on("message", (data) => {
-    console.log(`[server] client "${socket.id}" sent a message. Forwarding to all clients`);
-    ioServer.emit("message", `forwarding ${data} from client ${socket.id}`);
-  });
-});
-
 if (process.env.IS_CLIENT) {
   const socketClient = io(process.env.MASTER_HOST);
 
@@ -32,5 +19,23 @@ if (process.env.IS_CLIENT) {
 
   socketClient.on("message", (data) => console.log(`[client] message from server "${data}"`));
 }
+
+const ioServer = new Server(server);
+
+ioServer.on("connection", (socket) => {
+  console.log("[server] a user was connected");
+
+  socket.emit("message", "welcome to server");
+
+  socket.on("message", (data) => {
+    if (process.env.IS_CLIENT) {
+      console.log(`[client] received message from server "${data}"`);
+    } else {
+      console.log(`[server] client "${socket.id}" sent a message. Forwarding to all clients`);
+      ioServer.emit("message", `forwarding ${data} from client ${socket.id}`);
+    }
+  });
+});
+
 
 server.listen(process.env.PORT, () => console.log('Server is running...'));

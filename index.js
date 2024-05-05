@@ -15,6 +15,7 @@ ioServer.on("connection", (socket) => {
   socket.emit("message", "welcome to server");
 
   socket.on("message", (data) => {
+    console.log(`[server] client "${socket.id}" sent a message. Forwarding to all clients`);
     ioServer.emit("message", `forwarding ${data} from client ${socket.id}`);
   });
 });

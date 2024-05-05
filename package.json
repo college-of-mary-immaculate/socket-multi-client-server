@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start-server": "PORT=3000 node index.js",
+    "start-client1": "PORT=3001 IS_CLIENT=true MASTER_HOST=http://localhost:3000 node index.js",
+    "start-client2": "PORT=3002 IS_CLIENT=true MASTER_HOST=http://localhost:3000 node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
+  }
+}
